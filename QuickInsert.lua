@@ -18,6 +18,9 @@ local bFigure = Instance.new("HopperBin")
 local bAnchoredMode = Instance.new("HopperBin")
 local bHeadMesh = Instance.new("HopperBin")
 local bWedge = Instance.new("HopperBin")
+local bSign = Instance.new("HopperBin")
+local bNeutralSpawn = Instance.new("HopperBin")
+local bTeamSpawn = Instance.new("HopperBin")
 
 local bPage = Instance.new("HopperBin")
 local test = Instance.new("HopperBin")
@@ -34,7 +37,9 @@ bFigure.Name = "Figure"
 bPage.Name = "Page 1 [Basics]"
 bHeadMesh.Name = "Head"
 bWedge.Name = "Wedge"
-
+bSign.Name = "TextSign"
+bNeutralSpawn.Name = "NeutralSpawn"
+bTeamSpawn.Name = "TeamSpawn"
 
 bAnchoredMode.Name = "Anchored: nil"
 bAnchoredMode.TextureId = anchoredOFF
@@ -47,16 +52,18 @@ bWheel.TextureId = "5e44c6bb929634e1e5d7d5ed1604f0dc"
 bFigure.TextureId = "1cfbf5dd7075879f6178af4d458c1b68"
 bHeadMesh.TextureId = "0ec31bfa9ca8b87ea07a4f0801cedec3"
 bWedge.TextureId = "764b351dff29b7793aa803937404879f"
-
+bSign.TextureId = "bde9e61f928f26b2a36bf393712fb655"
+bNeutralSpawn.TextureId = "rbxasset://textures/SpawnLocation.png"
 
 local page = 1
 local pageMin = 1
-local pageMax = 3
+local pageMax = 5
 
 local page1 = {bPart, bPlate, bBall, bWheel}
 local page2 = {bHeadMesh, bWedge}
 local page3 = {bFigure}
-
+local page4 = {bNeutralSpawn, bTeamSpawn}
+local page5 = {bSign}
 
 function viewPage(p)
 	
@@ -72,6 +79,12 @@ function viewPage(p)
 	elseif p == 3 then
 		from = page3
 		category = "Characters"
+	elseif p == 4 then
+		from = page4
+		category = "Gameplay"
+	elseif p == 5 then
+		from = page5
+		category = "Signs"
 	end
 	
 	local ex = pl:GetChildren()
@@ -101,6 +114,135 @@ function displayToolTip(text)
 		tooltip.Text = ""
 	end
 end
+
+
+function hideGivenTools()
+	local tools = pl:GetChildren()
+	for i=1,#tools do
+		if tools[i].className == "HopperBin" then
+			tools[i].Parent = nil
+		end
+	end
+end
+
+function destroyGivenTools()
+	local tools = pl:GetChildren()
+	for i=1,#tools do
+		if tools[i].className == "HopperBin" then
+			tools[i]:remove()
+		end
+	end
+end
+
+
+
+function say(msg)
+	local m = Instance.new("Message", workspace)
+	m.Text = msg
+	wait(1)
+	m:remove()
+end
+
+
+
+local teamColors = {"Bright red", "Bright orange", "Bright yellow", "Bright green", "Bright blue", "Bright violet"}
+function askForTeamColor()
+
+	local msg = Instance.new("Message", pl)
+	msg.Text = "Choose a team color."
+
+	hideGivenTools()
+	local chosenColor = ""
+	local hasChosen = false
+	
+	for i=1,#teamColors do
+		local binColor = Instance.new("HopperBin", pl)
+		binColor.Name = teamColors[i]
+		
+		binColor.Selected:connect(function()
+			chosenColor = binColor.Name
+			hasChosen = true
+			--say("Set: " ..chosenColor)
+		end)
+	end
+	
+	repeat
+		wait(.25)
+	until hasChosen
+	
+	msg:remove()
+	destroyGivenTools()
+	createSpawnLocation(false, chosenColor)
+	viewPage(4)
+end
+
+bTeamSpawn.Selected:connect(function()
+	askForTeamColor()
+end)
+
+bNeutralSpawn.Selected:connect(function()
+	createSpawnLocation(true)
+end)
+
+
+
+function createSpawnLocation(isNeutral, nameTeamColor)
+	
+	local spawner = Instance.new("SpawnLocation", workspace)
+	spawner.Size = Vector3.new(4,1,4)
+	
+	if cam then
+	  spawner.CFrame = workspace.CurrentCamera.CoordinateFrame * CFrame.new(0,0,-5)
+	  spawner.CFrame = CFrame.new(spawner.Position)
+	end
+	
+	spawner.TopSurface = "Smooth"
+	spawner.FrontSurface = "Weld"
+	spawner.BackSurface = "Weld"
+	spawner.LeftSurface = "Weld"
+	spawner.RightSurface = "Weld"
+	
+	if anchoredMode then
+		spawner.Anchored = true
+	end
+	
+	local decal = Instance.new("Decal", spawner)
+	decal.Texture = "rbxasset://textures/SpawnLocation.png"
+	decal.Face = "Top"
+	
+	if not isNeutral and nameTeamColor then
+		spawner.BrickColor = BrickColor.new(nameTeamColor)
+		
+		local teams = game:GetService("Teams")
+		
+		local team = Instance.new("Team", teams)
+		team.TeamColor = spawner.BrickColor
+	end
+	
+	
+end
+
+
+bSign.Selected:connect(function()
+
+	local part = insertPart(true, "block")
+	part.Size = Vector3.new(1,.25,1)
+	
+	part.LeftSurface = "Weld"
+	part.RightSurface = "Weld"
+	
+	part.Name = "Head"
+	
+	local model = Instance.new("Model", workspace)
+	model.Name = "Text Sign"
+	part.Parent = model
+	
+	local hu = Instance.new("Humanoid", model)
+	hu.Health = 0
+	hu.MaxHealth = 0
+	
+end)
+
 
 
 bPage.Selected:connect(function()
@@ -174,7 +316,6 @@ function insertPart(isPlate, shape)
   if cam then
 	  part.CFrame = workspace.CurrentCamera.CoordinateFrame * CFrame.new(0,0,-5)
 	  part.CFrame = CFrame.new(part.Position)
-	--part.Position = workspace.CurrentCamera.CoordinateFrame.p + Vector3.new(0,0,-5)
   end
   
   if isPlate then
