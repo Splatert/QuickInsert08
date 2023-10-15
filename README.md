@@ -33,6 +33,17 @@ Page 3 - Characters
 | Figure |      !["Figure"](figure.PNG)     | Inserts a character model.
 Note: This model is inserted from Roblox's 'content/Fonts' folder.
 
+Page 4 - Gameplay
+| Item        | Image | Description
+| ------------- |-----|:-------------:|
+| Neutral Spawn Location |      !["Spawn"](spawn2.png)     | Inserts a neutral spawn location.
+| Team Spawn Location |      !["Spawn"](spawn2.png)     | Inserts a team spawn location. Selecting this will also let you select a team color.
+
+Page 5 - Signs
+| Item        | Image | Description
+| ------------- |-----|:-------------:|
+| Text Sign |      !["textsign"](textSign.png)     | Creates a text sign template.
+
 All categories
 | Item        | Image | Description
 | ------------- |-----|:-------------:|
