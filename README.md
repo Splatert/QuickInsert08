@@ -3,7 +3,8 @@ Object insertion shortcuts for Roblox Studio 2008
 
 
 ## Usage
-To use this tool, execute QuickInsert.lua through Tools > Execute Script.
+- Download the folder and keep it somewhere.
+- Execute the 'QuickInsert.lua' script that's inside the folder through Tools > Execute Script.
 
 
 Once ran, you will be shown a bunch of items on the bottom of Studio's screen.
