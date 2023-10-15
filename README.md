@@ -31,7 +31,7 @@ Page 3 - Characters
 | Item        | Image | Description
 | ------------- |-----|:-------------:|
 | Figure |      !["Figure"](figure.PNG)     | Inserts a character model.
-
+Note: This model is inserted from Roblox's 'content/Fonts' folder.
 
 All categories
 | Item        | Image | Description
