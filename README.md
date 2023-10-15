@@ -11,10 +11,11 @@ Clicking on them will create the object and move it in front of where your camer
 
 Each item does the following.
 
-| Item        | Are
-| ------------- |:-------------:|
-| Part      | Inserts a part
-| Plate      | Inserts a part that's in a form of a plate.
-| Ball | Inserts a sphere.
-| Wheel | Inserts a cylinder
-| Figure | Inserts a character model.
+| Item        | Image | Description
+| ------------- |-----|:-------------:|
+| Part      |   !["Part"](part.PNG)    | Inserts a part
+| Plate      |   !["Part"](plate.PNG)    | Inserts a part that's in a form of a plate.
+| Ball |       !["Part"](ball.PNG)      | Inserts a sphere.
+| Wheel |     !["Part"](cylinder.PNG)       | Inserts a cylinder
+| Figure |      !["Part"](figure.PNG)     | Inserts a character model.
+| Anchored Mode | !["Anchored"](anchoredOFF.PNG)!["Anchored"](anchoredON.PNG) | Lets inserted objects become anchored or unanchored.
